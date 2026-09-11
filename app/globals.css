@@ -56,9 +56,9 @@ h3 { font-size: 28px; line-height: 1.08; }
 .hero > img { position: absolute; inset: 0; height: 100%; object-fit: cover; object-position: center 56%; }
 .hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.72) 31%, rgba(5,5,5,.18) 60%, transparent 78%), linear-gradient(0deg, rgba(5,5,5,.76), transparent 46%); }
 .hero__copy { position: relative; z-index: 1; display: flex; min-height: inherit; flex-direction: column; justify-content: flex-end; padding-block: 70px 60px; }
-.hero__copy h1 { display: grid; max-width: 610px; font-family: var(--font-heading), Impact, sans-serif; font-size: clamp(68px, 8.1vw, 118px); font-weight: 650; line-height: .84; letter-spacing: -.025em; text-transform: uppercase; }
+.hero__copy h1 { display: grid; gap: 24px; max-width: 610px; font-family: var(--font-heading), Impact, sans-serif; font-size: clamp(68px, 8.1vw, 118px); font-weight: 650; line-height: .84; letter-spacing: -.025em; text-transform: uppercase; }
 .hero__copy h1 span { display: block; }
-.hero__copy h1 span:nth-child(2) { margin-left: .42em; }
+.hero__copy h1 .hero-title__claim { max-width: 470px; padding-top: 17px; border-top: 2px solid var(--accent); font-family: var(--font-body), Arial, sans-serif; font-size: clamp(27px, 2.6vw, 38px); font-weight: 700; line-height: 1.08; letter-spacing: -.035em; text-transform: none; }
 .hero__bottom { display: grid; grid-template-columns: minmax(300px, 520px) auto; gap: 48px; align-items: end; margin-top: 34px; }
 .hero__bottom p { font-size: 19px; line-height: 1.45; }
 .hero__bottom a { display: inline-flex; justify-self: start; align-items: center; gap: 18px; padding-bottom: 8px; border-bottom: 1px solid; font-size: 14px; font-weight: 800; }
@@ -245,8 +245,8 @@ h3 { font-size: 28px; line-height: 1.08; }
   .hero > img { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; object-position: center; }
   .hero__shade { display: none; }
   .hero__copy { width: 100%; min-height: 0; margin: 0; padding: 30px 20px 38px; background: #111; }
-  .hero__copy h1 { max-width: 100%; font-size: clamp(48px, 14.8vw, 66px); line-height: .86; }
-  .hero__copy h1 span:nth-child(2) { margin-left: .2em; }
+  .hero__copy h1 { gap: 18px; max-width: 100%; font-size: clamp(48px, 14.8vw, 66px); line-height: .86; }
+  .hero__copy h1 .hero-title__claim { max-width: 360px; padding-top: 13px; font-size: clamp(23px, 7.2vw, 30px); line-height: 1.08; }
   .hero__bottom { grid-template-columns: 1fr; gap: 22px; margin-top: 24px; }
   .hero__bottom p { max-width: 520px; font-size: 16px; }
   .about, .occasions, .process, .contact, .faq { padding-block: 68px; }
