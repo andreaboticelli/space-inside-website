@@ -18,7 +18,7 @@ const directions: Direction[] = [
     description: 'Брейк-данс строится на характере исполнителя: силовые элементы, пластика, музыкальность и импровизация складываются в динамичное сценическое выступление. Формат подходит для яркого открытия, самостоятельного номера или живого общения с публикой.',
     programs: [
       { title: 'Брейк-данс шоу', genre: 'Танцевальная программа', image: '/media/breakdance-light.jpg', description: 'Энергичное выступление с сольными выходами и общей хореографией команды.', gallery: ['/media/breakdance-light.jpg', '/media/breakdance-solo.jpg', '/media/breakdance.jpg'] },
-      { title: 'Гангстеры', genre: 'Сюжетная танцевальная программа', image: '/media/gangsters.png', description: 'Брейкинг, кинематографичные персонажи и атмосфера криминальной истории.', gallery: ['/media/gangsters.png', '/media/breakdance.jpg', '/media/breakdance-solo.jpg'] },
+      { title: 'Гангстеры', genre: 'Сюжетная танцевальная программа', image: '/media/gangsters-3.jpg', description: 'Брейкинг, кинематографичные персонажи и атмосфера криминальной истории.', gallery: ['/media/gangsters-1.jpg', '/media/gangsters-2.jpg', '/media/gangsters-3.jpg'] },
       { title: 'Паучий динамит', genre: 'Экстрим брейк-данс шоу', image: '/media/spider-dynamite-crowd.jpg', description: 'Сценическое противостояние, акробатика и напряжение настоящего поединка.', gallery: ['/media/spider-dynamite-crowd.jpg', '/media/spider-dynamite-solo.jpg', '/media/spider-dynamite.jpg'] },
     ],
   },
@@ -43,12 +43,12 @@ const directions: Direction[] = [
 ];
 
 const videos = [
-  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239152', poster: '/media/fire-pirates-wide.png' },
-  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239094', poster: '/media/breakdance.jpg' },
-  { src: 'https://vk.ru/video_ext.php?oid=305543770&id=456239249', poster: '/media/spider-dynamite.jpg' },
-  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239020', poster: '/media/fire-maslenitsa.jpg' },
-  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239019', poster: '/media/spiderman-game.png' },
-  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239017', poster: '/media/ded-moroz-dance.jpg' },
+  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239152', poster: '/media/video-pirates.jpg', title: 'Пираты — экстрим фаер-шоу' },
+  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239094', poster: '/media/video-breakdance.jpg', title: 'Брейк-данс шоу' },
+  { src: 'https://vk.ru/video_ext.php?oid=305543770&id=456239249', poster: '/media/video-spiderman.jpg', title: 'Человек-паук — анимация' },
+  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239020', poster: '/media/video-gangsters.jpg', title: 'Брейк-данс шоу «Гангстеры»' },
+  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239019', poster: '/media/video-spider-dynamite.jpg', title: 'Рестлинг-шоу «Паучий динамит»' },
+  { src: 'https://vk.ru/video_ext.php?oid=-169134080&id=456239017', poster: '/media/video-gangsters-promo.jpg', title: 'Брейк-данс шоу «Гангстеры» — промо' },
 ] as const;
 
 const faqs = [
@@ -61,7 +61,19 @@ const faqs = [
 
 function ProgramCard({ item, onOpenGallery }: { item: Program; onOpenGallery: (item: Program) => void }) {
   return (
-    <article className="program-card">
+    <article
+      className="program-card"
+      role="button"
+      tabIndex={0}
+      aria-label={`Открыть фотографии программы «${item.title}»`}
+      onClick={() => onOpenGallery(item)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onOpenGallery(item);
+        }
+      }}
+    >
       <img src={item.image} alt={`${item.title}: кадр программы`} loading="lazy" />
       <div className="program-card__shade" />
       <div className="program-card__copy">
@@ -69,7 +81,7 @@ function ProgramCard({ item, onOpenGallery }: { item: Program; onOpenGallery: (i
         <h3>{item.title}</h3>
         <div className="program-card__details">
           <span>{item.description}</span>
-          <button onClick={() => onOpenGallery(item)} aria-label={`Открыть фотографии программы «${item.title}»`}><Images /></button>
+          <button onClick={(event) => { event.stopPropagation(); onOpenGallery(item); }} aria-label={`Открыть фотографии программы «${item.title}»`}><Images /></button>
         </div>
       </div>
     </article>
@@ -220,8 +232,8 @@ export default function Home() {
         <div className="video-section__heading page-width"><div><p className="eyebrow">Видео</p><h2 id="video-title">Выступления<br />в движении.</h2></div><p>Нажмите на карточку, чтобы запустить видео. В плеере можно включить полноэкранный режим.</p></div>
         <div className="video-grid page-width">
           {videos.map((video, index) => <article className="video-card" key={video.src}>
-            {activeVideo === index ? <iframe src={`${video.src}&autoplay=1`} title={`Видео выступления ${index + 1}`} allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowFullScreen loading="lazy" /> : <button type="button" onClick={() => setActiveVideo(index)} aria-label={`Запустить видео ${index + 1}`}>
-              <img src={video.poster} alt="" loading="lazy" /><span className="video-card__shade" /><span className="video-card__number">{String(index + 1).padStart(2, '0')}</span><span className="video-card__play"><Play fill="currentColor" /></span><strong>Смотреть выступление</strong>
+            {activeVideo === index ? <iframe src={`${video.src}&autoplay=1`} title={video.title} allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowFullScreen loading="lazy" /> : <button type="button" onClick={() => setActiveVideo(index)} aria-label={`Запустить видео «${video.title}»`}>
+              <img src={video.poster} alt="" loading="lazy" /><span className="video-card__shade" /><span className="video-card__number">{String(index + 1).padStart(2, '0')}</span><span className="video-card__play"><Play fill="currentColor" /></span><span className="video-card__caption"><small>Смотреть видео</small><strong>{video.title}</strong></span>
             </button>}
           </article>)}
         </div>

@@ -112,8 +112,10 @@ h3 { font-size: 28px; line-height: 1.08; }
 .program-grid { display: grid; gap: 14px; align-items: start; }
 .program-grid--2 { grid-template-columns: repeat(2, minmax(0, 380px)); }
 .program-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.program-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.program-card { position: relative; min-width: 0; aspect-ratio: 3 / 4; overflow: hidden; background: #222; color: var(--white); }
+.program-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.program-card { position: relative; min-width: 0; aspect-ratio: 3 / 4; overflow: hidden; background: #222; color: var(--white); cursor: pointer; }
+.program-grid--4 .program-card { aspect-ratio: 4 / 3; }
+.program-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 .program-card > img { position: absolute; inset: 0; height: 100%; object-fit: cover; transition: transform 450ms ease; }
 .program-grid--3 .program-card:nth-child(2) > img { object-position: center; }
 .program-grid--3 .program-card:nth-child(3) > img { object-position: 55% center; }
@@ -166,7 +168,9 @@ h3 { font-size: 28px; line-height: 1.08; }
 .video-card__play { position: absolute; top: 50%; left: 50%; display: grid; width: 66px; height: 66px; place-items: center; border: 1px solid rgba(255,255,255,.82); border-radius: 50%; background: rgba(10,10,10,.38); transform: translate(-50%, -50%); transition: background 180ms ease, transform 180ms ease; }
 .video-card__play svg { width: 24px; }
 .video-card > button:hover .video-card__play { background: var(--accent); transform: translate(-50%, -50%) scale(1.06); }
-.video-card strong { position: absolute; right: 24px; bottom: 20px; left: 24px; font-size: 22px; line-height: 1.1; }
+.video-card__caption { position: absolute; right: 24px; bottom: 20px; left: 24px; display: grid; gap: 5px; }
+.video-card__caption small { color: #ff6945; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.video-card__caption strong { max-width: 85%; font-size: 22px; line-height: 1.1; }
 
 .occasions { padding-block: 94px; }
 .occasions h2 { max-width: 910px; }
@@ -291,7 +295,7 @@ h3 { font-size: 28px; line-height: 1.08; }
   .direction__heading h2 { font-size: 42px; }
   .direction__label { margin-top: 30px; }
   .program-grid--2, .program-grid--3, .program-grid--4, .direction--dark .program-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .direction--dark .program-grid--2 .program-card, .program-card { aspect-ratio: 4 / 5; }
+  .direction--dark .program-grid--2 .program-card, .program-card, .program-grid--4 .program-card { aspect-ratio: 4 / 5; }
   .program-card__copy { padding: 13px; }
   .program-card__copy > p { display: none; }
   .program-card__copy h3 { font-size: clamp(20px, 6.2vw, 27px); line-height: .98; }
@@ -302,7 +306,8 @@ h3 { font-size: 28px; line-height: 1.08; }
   .video-section__heading { margin-bottom: 30px; }
   .video-grid { grid-template-columns: 1fr; gap: 8px; }
   .video-card__number { top: 14px; left: 16px; }
-  .video-card strong { right: 16px; bottom: 14px; left: 16px; font-size: 18px; }
+  .video-card__caption { right: 16px; bottom: 14px; left: 16px; }
+  .video-card__caption strong { font-size: 18px; }
   .video-card__play { width: 54px; height: 54px; }
   .program-gallery-dialog { width: 100vw; max-height: 100svh; }
   .program-gallery-view { height: 100svh; }
