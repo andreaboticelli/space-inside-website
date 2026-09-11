@@ -10,11 +10,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
 type Program = { title: string; genre: string; image: string; description: string };
-type Direction = { id: string; title: string; note: string; description: string; navImage: string; programs: Program[] };
+type Direction = { id: string; number: string; title: string; note: string; description: string; navImage: string; programs: Program[] };
 
 const directions: Direction[] = [
   {
-    id: 'dance', title: 'Брейк-данс шоу', note: 'Движение, техника и индивидуальный стиль', navImage: '/media/breakdance-solo.jpg',
+    id: 'dance', number: '01', title: 'Брейк-данс шоу', note: 'Движение, техника и индивидуальный стиль', navImage: '/media/breakdance-solo.jpg',
     description: 'Брейк-данс строится на характере исполнителя: силовые элементы, пластика, музыкальность и импровизация складываются в динамичное сценическое выступление. Формат подходит для яркого открытия, самостоятельного номера или живого общения с публикой.',
     programs: [
       { title: 'Брейк-данс шоу', genre: 'Танцевальная программа', image: '/media/breakdance-light.jpg', description: 'Энергичное выступление с сольными выходами и общей хореографией команды.' },
@@ -23,7 +23,7 @@ const directions: Direction[] = [
     ],
   },
   {
-    id: 'fire', title: 'Фаер-шоу', note: 'Огонь, масштаб и сценическое напряжение', navImage: '/media/hero-fire.jpg',
+    id: 'fire', number: '02', title: 'Фаер-шоу', note: 'Огонь, масштаб и сценическое напряжение', navImage: '/media/hero-fire.jpg',
     description: 'Фаер-шоу собирает внимание вокруг живого огня, точной работы артистов и выразительной драматургии. Масштаб и набор трюков подбираются под площадку, количество зрителей и характер события.',
     programs: [
       { title: 'Пираты', genre: 'Экстрим фаер-шоу', image: '/media/fire-pirates.jpg', description: 'Огненные трюки и дерзкая подача в атмосфере морского приключения.' },
@@ -31,7 +31,7 @@ const directions: Direction[] = [
     ],
   },
   {
-    id: 'animation', title: 'Анимация', note: 'Персонажи, сюжет и живое участие гостей', navImage: '/media/spiderman-portrait.jpg',
+    id: 'animation', number: '03', title: 'Анимация', note: 'Персонажи, сюжет и живое участие гостей', navImage: '/media/spiderman-portrait.jpg',
     description: 'Анимационные программы вовлекают гостей через знакомых персонажей, игры, задания и общий сюжет. Сценарий и интенсивность общения адаптируются под возраст, повод и настроение компании.',
     programs: [
       { title: 'Человек-паук', genre: 'Анимационная программа', image: '/media/spiderman.jpg', description: 'Встреча с супергероем и приключение, где гости становятся участниками.' },
@@ -129,7 +129,7 @@ export default function Home() {
         <figure className="team-portrait">
           <img src="/media/team-pirates.png" alt="Команда «Космос Внутри» в образах пиратского фаер-шоу" loading="lazy" />
           <div className="team-portrait__shade" />
-          <h2 id="about-title">Разные пути.<br />Общий язык сцены.</h2>
+          <h2 id="about-title">Одна команда.<br />Девять живых историй.</h2>
         </figure>
         <div className="team-copy">
           <p className="team-copy__lead">У каждого свой путь: брейк-данс, огонь, уличные выступления, преподавание и баттлы.</p>
@@ -147,24 +147,25 @@ export default function Home() {
           <div><p className="eyebrow">Программы</p><h2 id="programs-title">Три направления.<br />Девять программ.</h2></div>
           <p>Сначала выберите направление, затем конкретную программу внутри него.</p>
         </div>
-        <div className="direction-columns page-width">
-          {directions.map((direction) => (
-            <section className="direction-column" id={direction.id} key={direction.id} aria-labelledby={`${direction.id}-title`}>
-              <a className="direction-card" href={`#${direction.id}-programs`}>
-                <div className="direction-card__media"><img src={direction.navImage} alt={`Кадр направления «${direction.title}»`} loading="lazy" /></div>
-                <div className="direction-card__copy">
-                  <strong id={`${direction.id}-title`}>{direction.title}</strong>
-                  <small>{direction.programs.length} {direction.programs.length < 5 ? 'программы' : 'программ'}</small>
-                  <p>{direction.description}</p><ArrowDown />
-                </div>
-              </a>
-              <div className="direction-programs" id={`${direction.id}-programs`}>
-                <div className="direction-programs__heading"><span>Программы направления</span><small>{direction.note}</small></div>
-                <div className="program-stack">{direction.programs.map((item, index) => <ProgramCard item={item} onChoose={chooseProgram} key={`${item.title}-${index}`} />)}</div>
-              </div>
-            </section>
-          ))}
-        </div>
+        <nav className="direction-nav page-width" aria-label="Направления программ">
+          {directions.map((direction) => <a href={`#${direction.id}`} key={direction.id}>
+            <div className="direction-card__media"><img src={direction.navImage} alt={`Кадр направления «${direction.title}»`} loading="lazy" /></div>
+            <div className="direction-card__copy">
+              <strong>{direction.title}</strong><small>{direction.programs.length} {direction.programs.length < 5 ? 'программы' : 'программ'}</small>
+              <p>{direction.description}</p><ArrowDown />
+            </div>
+          </a>)}
+        </nav>
+
+        {directions.map((direction) => (
+          <section className={`direction ${direction.id === 'fire' ? 'direction--dark' : ''}`} id={direction.id} key={direction.id} aria-labelledby={`${direction.id}-title`}>
+            <div className="page-width">
+              <div className="direction__heading"><span>{direction.number} / Направление</span><div><h2 id={`${direction.id}-title`}>{direction.title}</h2><p>{direction.note}</p></div></div>
+              <div className="direction__label">Программы направления</div>
+              <div className={`program-grid program-grid--${direction.programs.length}`}>{direction.programs.map((item, index) => <ProgramCard item={item} onChoose={chooseProgram} key={`${item.title}-${index}`} />)}</div>
+            </div>
+          </section>
+        ))}
       </section>
 
       <section className="gallery" id="gallery" aria-labelledby="gallery-title">
