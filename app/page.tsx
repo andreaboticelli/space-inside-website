@@ -1,13 +1,10 @@
 'use client';
 
-import { FormEvent, useRef, useState } from 'react';
-import { ArrowDown, ArrowRight, Images, Mail, Maximize2, Menu, Phone, Play, Send, X } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { ArrowDown, ArrowRight, Images, Mail, Maximize2, Menu, Phone, Play, X } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 
 type Program = { title: string; genre: string; image: string; description: string; gallery: string[] };
 type Direction = { id: string; number: string; title: string; note: string; description: string; navImage: string; programs: Program[] };
@@ -90,44 +87,9 @@ function ProgramCard({ item, onOpenGallery }: { item: Program; onOpenGallery: (i
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedProgram, setSelectedProgram] = useState('Помогите выбрать');
-  const [draft, setDraft] = useState('');
   const [selectedGalleryProgram, setSelectedGalleryProgram] = useState<Program | null>(null);
   const [activeVideo, setActiveVideo] = useState<number | null>(null);
-  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const galleryFullscreenRef = useRef<HTMLDivElement>(null);
-  const allPrograms = directions.flatMap((direction) => direction.programs);
-
-  function chooseProgram(title: string) {
-    setSelectedProgram(title);
-    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  async function submitRequest(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    const name = String(data.get('name') || '').trim();
-    const contact = String(data.get('contact') || '').trim();
-    const eventText = String(data.get('event') || '').trim();
-    const message = `Здравствуйте! ${name ? `Меня зовут ${name}. ` : ''}Хочу обсудить ${selectedProgram === 'Помогите выбрать' ? 'программу для события' : `программу «${selectedProgram}»`}.${eventText ? ` ${eventText}` : ''} Связаться со мной: ${contact}.`;
-    setDraft(message);
-    setFormStatus('sending');
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, contact, program: selectedProgram, event: eventText, website: data.get('website') }),
-      });
-      if (!response.ok) throw new Error('Request failed');
-      setFormStatus('sent');
-      form.reset();
-      setSelectedProgram('Помогите выбрать');
-    } catch {
-      setFormStatus('error');
-    }
-  }
 
   async function openGalleryFullscreen() {
     const element = galleryFullscreenRef.current as (HTMLDivElement & { webkitRequestFullscreen?: () => Promise<void> }) | null;
@@ -156,7 +118,7 @@ export default function Home() {
         <div className="hero__shade" />
         <div className="hero__copy page-width">
           <p className="eyebrow eyebrow--light">Творческая команда · Санкт-Петербург</p>
-          <h1 id="hero-title"><span>Характер</span><span>в каждом</span><span>событии</span></h1>
+          <h1 id="hero-title"><span>Космос</span><span>Внутри —</span><span>лучшие</span><span>в своём деле</span></h1>
           <div className="hero__bottom">
             <p>Брейк-данс, огонь и анимация для праздников, корпоративов и вечеринок.</p>
             <a href="#contact">Обсудить событие <ArrowRight /></a>
@@ -219,11 +181,7 @@ export default function Home() {
               <CarouselPrevious className="program-gallery-control program-gallery-control--prev" />
               <CarouselNext className="program-gallery-control program-gallery-control--next" />
             </Carousel>
-            <button className="program-gallery-cta" type="button" onClick={() => {
-              const program = `${selectedGalleryProgram.title} — ${selectedGalleryProgram.genre}`;
-              setSelectedGalleryProgram(null);
-              window.setTimeout(() => chooseProgram(program), 0);
-            }}>Обсудить эту программу <ArrowRight /></button>
+            <a className="program-gallery-cta" href="#contact" onClick={() => setSelectedGalleryProgram(null)}>Обсудить эту программу <ArrowRight /></a>
           </div>}
         </DialogContent>
       </Dialog>
@@ -251,6 +209,8 @@ export default function Home() {
 
       <section className="contact" id="contact" aria-labelledby="contact-title"><div className="contact__grid page-width">
         <div className="contact__copy"><p className="eyebrow eyebrow--light">Начнём разговор</p><h2 id="contact-title">Что вы хотите почувствовать вместе с гостями?</h2><p>Можно начать с одной мысли: хочется удивить, собрать всех вместе или добавить вечеру движения.</p>
+        </div>
+        <div className="contact__details">
           <div className="contact-links" aria-label="Контакты команды">
             <a href="https://vk.ru/spaceinside23" target="_blank" rel="noreferrer"><span className="contact-link__icon">VK</span><span><small>ВКонтакте</small><strong>spaceinside23</strong></span><ArrowRight /></a>
             <a href="mailto:spaceinsidespb2305@gmail.com"><span className="contact-link__icon"><Mail /></span><span><small>Электронная почта</small><strong>spaceinsidespb2305@gmail.com</strong></span><ArrowRight /></a>
@@ -258,17 +218,6 @@ export default function Home() {
           </div>
           <div className="location">Команда из Санкт-Петербурга<br />География выступлений — по согласованию</div>
         </div>
-        <form onSubmit={submitRequest} className="contact-form">
-          <label htmlFor="name">Как вас зовут <span>необязательно</span></label><Input id="name" name="name" placeholder="Имя" />
-          <label htmlFor="contact-field">Как с вами связаться</label><Input id="contact-field" name="contact" placeholder="Телефон, Telegram или email" required />
-          <label htmlFor="program">Программа</label><select id="program" name="program" value={selectedProgram} onChange={(event) => setSelectedProgram(event.target.value)}><option>Помогите выбрать</option>{allPrograms.map((item,index) => <option key={`${item.title}-${index}`} value={`${item.title} — ${item.genre}`}>{item.title} — {item.genre}</option>)}</select>
-          <label htmlFor="event">Что планируете? <span>необязательно</span></label><Textarea id="event" name="event" placeholder="Повод, дата, город, гости — всё, что уже известно" />
-          <label className="honeypot" htmlFor="website">Ваш сайт</label><Input className="honeypot" id="website" name="website" tabIndex={-1} autoComplete="off" />
-          <Button type="submit" disabled={formStatus === 'sending'}>{formStatus === 'sending' ? 'Отправляем…' : 'Отправить заявку'} <Send /></Button>
-          <small>Заявка придёт команде на электронную почту.</small>
-          {formStatus === 'sent' && <div className="form-message form-message--success" aria-live="polite">Спасибо! Заявка отправлена — мы свяжемся с вами.</div>}
-          {formStatus === 'error' && <div className="draft form-message--error" aria-live="polite"><p>Автоматическая отправка пока не настроена. Отправьте подготовленный текст по электронной почте:</p><a href={`mailto:spaceinsidespb2305@gmail.com?subject=${encodeURIComponent('Заявка с сайта «Космос Внутри»')}&body=${encodeURIComponent(draft)}`}>Открыть письмо <ArrowRight /></a><button type="button" onClick={() => navigator.clipboard.writeText(draft)}>Скопировать текст</button></div>}
-        </form>
       </div></section>
 
       <section className="faq page-width" aria-labelledby="faq-title"><div><p className="eyebrow">Частые вопросы</p><h2 id="faq-title">Осталось уточнить?</h2></div><Accordion className="faq-list">{faqs.map(([question,answer],index) => <AccordionItem value={`faq-${index}`} key={question}><AccordionTrigger>{question}</AccordionTrigger><AccordionContent>{answer}</AccordionContent></AccordionItem>)}</Accordion></section>
