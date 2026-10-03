@@ -8,13 +8,15 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 
 type Program = { title: string; genre: string; image: string; description: string; gallery: string[] };
 type Direction = { id: string; number: string; title: string; note: string; description: string; navImage: string; programs: Program[] };
+const assetPath = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}${path}`;
+const extraPhotos = (name: string, count: number) => Array.from({ length: count }, (_, index) => `/media/${name}-${String(index + 1).padStart(2, '0')}.jpg`);
 
 const directions: Direction[] = [
   {
     id: 'dance', number: '01', title: 'Брейк-данс шоу', note: 'Движение, техника и индивидуальный стиль', navImage: '/media/breakdance-solo.jpg',
     description: 'Брейк-данс строится на характере исполнителя: силовые элементы, пластика, музыкальность и импровизация складываются в динамичное сценическое выступление. Формат подходит для яркого открытия, самостоятельного номера или живого общения с публикой.',
     programs: [
-      { title: 'Брейк-данс шоу', genre: 'Танцевальная программа', image: '/media/breakdance-light.jpg', description: 'Энергичное выступление с сольными выходами и общей хореографией команды.', gallery: ['/media/breakdance-light.jpg', '/media/breakdance-solo.jpg', '/media/breakdance.jpg'] },
+      { title: 'Брейк-данс шоу', genre: 'Танцевальная программа', image: '/media/breakdance-light.jpg', description: 'Энергичное выступление с сольными выходами и общей хореографией команды.', gallery: ['/media/breakdance-light.jpg', '/media/breakdance-solo.jpg', '/media/breakdance.jpg', ...extraPhotos('breakdance-extra', 3)] },
       { title: 'Гангстеры', genre: 'Сюжетная танцевальная программа', image: '/media/gangsters-3.jpg', description: 'Брейкинг, кинематографичные персонажи и атмосфера криминальной истории.', gallery: ['/media/gangsters-1.jpg', '/media/gangsters-2.jpg', '/media/gangsters-3.jpg'] },
       { title: 'Паучий динамит', genre: 'Экстрим брейк-данс шоу', image: '/media/spider-dynamite-crowd.jpg', description: 'Сценическое противостояние, акробатика и напряжение настоящего поединка.', gallery: ['/media/spider-dynamite-crowd.jpg', '/media/spider-dynamite-solo.jpg', '/media/spider-dynamite.jpg'] },
     ],
@@ -23,7 +25,7 @@ const directions: Direction[] = [
     id: 'fire', number: '02', title: 'Фаер-шоу', note: 'Огонь, масштаб и сценическое напряжение', navImage: '/media/hero-fire.jpg',
     description: 'Фаер-шоу собирает внимание вокруг живого огня, точной работы артистов и выразительной драматургии. Масштаб и набор трюков подбираются под площадку, количество зрителей и характер события.',
     programs: [
-      { title: 'Пираты', genre: 'Экстрим фаер-шоу', image: '/media/fire-pirates.jpg', description: 'Огненные трюки и дерзкая подача в атмосфере морского приключения.', gallery: ['/media/fire-pirates.jpg', '/media/fire-pirates-wide.png', '/media/team-pirates.png'] },
+      { title: 'Пираты', genre: 'Экстрим фаер-шоу', image: '/media/fire-pirates.jpg', description: 'Огненные трюки и дерзкая подача в атмосфере морского приключения.', gallery: ['/media/fire-pirates.jpg', '/media/fire-pirates-wide.png', '/media/team-pirates.png', ...extraPhotos('fire-pirates-extra', 11)] },
       { title: 'Масленица', genre: 'Праздничное фаер-шоу', image: '/media/fire-maslenitsa.jpg', description: 'Выразительный огненный эпизод для проводов зимы и большого праздника.', gallery: ['/media/fire-maslenitsa.jpg', '/media/maslenitsa-team.jpg', '/media/maslenitsa-finale.jpg'] },
     ],
   },
@@ -31,7 +33,7 @@ const directions: Direction[] = [
     id: 'animation', number: '03', title: 'Анимация', note: 'Персонажи, сюжет и живое участие гостей', navImage: '/media/spiderman-portrait.jpg',
     description: 'Анимационные программы вовлекают гостей через знакомых персонажей, игры, задания и общий сюжет. Сценарий и интенсивность общения адаптируются под возраст, повод и настроение компании.',
     programs: [
-      { title: 'Человек-паук', genre: 'Анимационная программа', image: '/media/spiderman.jpg', description: 'Встреча с супергероем и приключение, где гости становятся участниками.', gallery: ['/media/spiderman.jpg', '/media/spiderman-portrait.jpg', '/media/spiderman-game.png'] },
+      { title: 'Человек-паук', genre: 'Анимационная программа', image: '/media/spiderman.jpg', description: 'Встреча с супергероем и приключение, где гости становятся участниками.', gallery: ['/media/spiderman.jpg', '/media/spiderman-portrait.jpg', '/media/spiderman-game.png', ...extraPhotos('spiderman-extra', 13)] },
       { title: 'Пираты', genre: 'Анимация-квест', image: '/media/pirate-slide.jpg', description: 'Задания и общий сюжет собирают гостей в настоящую пиратскую команду.', gallery: ['/media/pirate-slide.jpg', '/media/pirate-games.jpg', '/media/pirate-quest.jpg'] },
       { title: 'Дед Мороз', genre: 'Взрослая анимация', image: '/media/ded-moroz-portrait.jpg', description: 'Новогодняя программа с юмором, поздравлениями и общением с компанией.', gallery: ['/media/ded-moroz-portrait.jpg', '/media/ded-moroz-dance.jpg', '/media/ded-moroz.jpg'] },
       { title: 'Хеллоуин', genre: 'Анимация и шоу', image: '/media/halloween-close.jpg', description: 'Персонажи, игры и зрелищные эпизоды в атмосфере праздника.', gallery: ['/media/halloween-close.jpg', '/media/halloween-group.jpg', '/media/halloween.jpg'] },
@@ -60,27 +62,18 @@ function ProgramCard({ item, onOpenGallery }: { item: Program; onOpenGallery: (i
   return (
     <article
       className="program-card"
-      role="button"
-      tabIndex={0}
-      aria-label={`Открыть фотографии программы «${item.title}»`}
-      onClick={() => onOpenGallery(item)}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          onOpenGallery(item);
-        }
-      }}
     >
-      <img src={item.image} alt={`${item.title}: кадр программы`} loading="lazy" />
+      <img src={assetPath(item.image)} alt={`${item.title}: кадр программы`} loading="lazy" />
       <div className="program-card__shade" />
       <div className="program-card__copy">
         <p><span>Программа</span>{item.genre}</p>
         <h3>{item.title}</h3>
         <div className="program-card__details">
           <span>{item.description}</span>
-          <button onClick={(event) => { event.stopPropagation(); onOpenGallery(item); }} aria-label={`Открыть фотографии программы «${item.title}»`}><Images /></button>
+          <span className="program-card__gallery-cue"><Images aria-hidden="true" />Смотреть фото</span>
         </div>
       </div>
+      <button className="program-card__open" type="button" onClick={() => onOpenGallery(item)} aria-label={`Смотреть фотографии программы «${item.title}»`} />
     </article>
   );
 }
@@ -114,7 +107,7 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top" aria-labelledby="hero-title">
-        <img src="/media/fire-pirates-wide.png" alt="Огненное шоу команды «Космос Внутри»" />
+        <img src={assetPath('/media/fire-pirates-wide.png')} alt="Огненное шоу команды «Космос Внутри»" />
         <div className="hero__shade" />
         <div className="hero__copy page-width">
           <p className="eyebrow eyebrow--light">Творческая команда · Санкт-Петербург</p>
@@ -132,7 +125,7 @@ export default function Home() {
       <section className="about page-width" id="about" aria-labelledby="about-title">
         <p className="eyebrow">О команде</p>
         <figure className="team-portrait">
-          <img src="/media/team-pirates.png" alt="Команда «Космос Внутри» в образах пиратского фаер-шоу" loading="lazy" />
+          <img src={assetPath('/media/team-pirates.png')} alt="Команда «Космос Внутри» в образах пиратского фаер-шоу" loading="lazy" />
           <div className="team-portrait__shade" />
           <h2 id="about-title">Одна команда.<br />Девять живых историй.</h2>
         </figure>
@@ -154,7 +147,7 @@ export default function Home() {
         </div>
         <nav className="direction-nav page-width" aria-label="Направления программ">
           {directions.map((direction) => <a href={`#${direction.id}`} key={direction.id}>
-            <div className="direction-card__media"><img src={direction.navImage} alt={`Кадр направления «${direction.title}»`} loading="lazy" /></div>
+            <div className="direction-card__media"><img src={assetPath(direction.navImage)} alt={`Кадр направления «${direction.title}»`} loading="lazy" /></div>
             <div className="direction-card__copy">
               <strong>{direction.title}</strong><small>{direction.programs.length} {direction.programs.length < 5 ? 'программы' : 'программ'}</small>
               <p>{direction.description}</p><ArrowDown />
@@ -176,11 +169,11 @@ export default function Home() {
       <Dialog open={Boolean(selectedGalleryProgram)} onOpenChange={(open) => { if (!open) setSelectedGalleryProgram(null); }}>
         <DialogContent className="program-gallery-dialog" showCloseButton>
           <DialogTitle className="sr-only">Фотографии программы «{selectedGalleryProgram?.title}»</DialogTitle>
-          <DialogDescription className="sr-only">Три фотографии программы с возможностью пролистывания и полноэкранного просмотра.</DialogDescription>
+          <DialogDescription className="sr-only">Фотографии программы с возможностью пролистывания и полноэкранного просмотра.</DialogDescription>
           {selectedGalleryProgram && <div className="program-gallery-view" ref={galleryFullscreenRef}>
             <div className="program-gallery-toolbar"><div><span>{selectedGalleryProgram.genre}</span><strong>{selectedGalleryProgram.title}</strong></div><button type="button" onClick={openGalleryFullscreen}><Maximize2 />На весь экран</button></div>
             <Carousel opts={{ loop: true }} className="program-gallery-carousel">
-              <CarouselContent>{selectedGalleryProgram.gallery.map((src, index) => <CarouselItem key={src}><img src={src} alt={`${selectedGalleryProgram.title}, фотография ${index + 1}`} /></CarouselItem>)}</CarouselContent>
+              <CarouselContent>{selectedGalleryProgram.gallery.map((src, index) => <CarouselItem key={src}><img src={assetPath(src)} alt={`${selectedGalleryProgram.title}, фотография ${index + 1} из ${selectedGalleryProgram.gallery.length}`} loading={index === 0 ? 'eager' : 'lazy'} /></CarouselItem>)}</CarouselContent>
               <CarouselPrevious className="program-gallery-control program-gallery-control--prev" />
               <CarouselNext className="program-gallery-control program-gallery-control--next" />
             </Carousel>
@@ -194,7 +187,7 @@ export default function Home() {
         <div className="video-grid page-width">
           {videos.map((video, index) => <article className="video-card" key={video.src}>
             {activeVideo === index ? <iframe src={`${video.src}&autoplay=1`} title={video.title} allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowFullScreen loading="lazy" /> : <button type="button" onClick={() => setActiveVideo(index)} aria-label={`Запустить видео «${video.title}»`}>
-              <img src={video.poster} alt="" loading="lazy" /><span className="video-card__shade" /><span className="video-card__number">{String(index + 1).padStart(2, '0')}</span><span className="video-card__play"><Play fill="currentColor" /></span><span className="video-card__caption"><small>Смотреть видео</small><strong>{video.title}</strong></span>
+              <img src={assetPath(video.poster)} alt="" loading="lazy" /><span className="video-card__shade" /><span className="video-card__number">{String(index + 1).padStart(2, '0')}</span><span className="video-card__play"><Play fill="currentColor" /></span><span className="video-card__caption"><small>Смотреть видео</small><strong>{video.title}</strong></span>
             </button>}
           </article>)}
         </div>
