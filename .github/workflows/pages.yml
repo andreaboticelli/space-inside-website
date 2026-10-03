@@ -25,8 +25,6 @@ jobs:
       - uses: actions/configure-pages@v5
       - name: Build static website
         run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: /space-inside-website
       - name: Disable Jekyll processing for Next.js assets
         run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v4

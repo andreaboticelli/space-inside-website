@@ -28,6 +28,6 @@ npm run build
 1. В репозитории GitHub откройте **Settings → Pages**.
 2. В разделе **Build and deployment** выберите **Source: GitHub Actions**.
 3. Отправьте изменения в ветку `main` (или запустите workflow **Deploy to GitHub Pages** вручную во вкладке **Actions**).
-4. Дождитесь успешного задания `deploy`. Сайт будет доступен по адресу `https://andreaboticelli.github.io/space-inside-website/`.
+4. Дождитесь успешного задания `deploy` и настройте собственный домен `spaceinside.ru` в **Settings → Pages → Custom domain**.
 
-В workflow переменная `NEXT_PUBLIC_BASE_PATH` равна `/space-inside-website`, чтобы изображения и файлы Next.js работали под адресом репозитория. Если позже привязать отдельный домен к GitHub Pages, уберите это значение из workflow и настройте домен в **Settings → Pages**: на собственном домене сайт должен собираться для корня `/`.
+Сайт собирается для корня `/`, чтобы стили и изображения работали на `spaceinside.ru`. До подключения собственного домена адрес проекта `https://andreaboticelli.github.io/space-inside-website/` может отображаться некорректно.
